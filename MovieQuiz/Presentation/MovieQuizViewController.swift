@@ -58,9 +58,11 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
 
         if isCorrect { self.correctAnswers += 1 }
+        setButtonsState(to: false)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.showNextQuestionOrResults()
+            self.setButtonsState(to: true)
         }
     }
 
@@ -113,6 +115,11 @@ final class MovieQuizViewController: UIViewController {
         self.currentQuestionIndex = 0
         self.correctAnswers = 0
         showCurrentQuestion()
+    }
+    
+    private func setButtonsState(to state: Bool) {
+        yesButton.isEnabled = state
+        noButton.isEnabled = state
     }
 
     struct QuizQuestion {
