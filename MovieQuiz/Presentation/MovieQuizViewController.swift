@@ -32,9 +32,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
 
     // MARK: - QuestionFactoryDelegate
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {
-            return
-        }
+        guard let question else { return }
         currentQuestion = question
         let viewModel = convert(model: question)
 
@@ -135,9 +133,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
 
         let action = UIAlertAction(title: result.buttonText, style: .default) {
             [weak self] _ in
-
             guard let self = self else { return }
-
             self.restartQuiz()
         }
 
