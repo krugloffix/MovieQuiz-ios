@@ -115,6 +115,9 @@
                                     <constraint firstItem="Zmf-V5-PxT" firstAttribute="top" secondItem="n82-Ci-ljt" secondAttribute="top" id="t71-Cv-l0b"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="hTk-zx-Jvm">
+                                <rect key="frame" x="210" y="482" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Background"/>
@@ -123,9 +126,12 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="n82-Ci-ljt" secondAttribute="trailing" constant="20" id="Gah-fi-UgV"/>
                             <constraint firstItem="n82-Ci-ljt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="Z30-zv-B1g"/>
                             <constraint firstItem="n82-Ci-ljt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="aZY-b1-hcN"/>
+                            <constraint firstItem="hTk-zx-Jvm" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="h7u-9U-bN3"/>
+                            <constraint firstItem="hTk-zx-Jvm" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="yB4-le-3Tn"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="hTk-zx-Jvm" id="V2k-WK-m0z"/>
                         <outlet property="counterLabel" destination="4dI-fO-ZSc" id="mLO-Tk-Sbi"/>
                         <outlet property="imageView" destination="GYu-0J-1qD" id="8Gn-is-zaR"/>
                         <outlet property="noButton" destination="bVx-M3-hi4" id="zbg-fq-pka"/>
