@@ -42,7 +42,9 @@ final class StatisticService: StaticServiceProtocol {
         get {
             let correct = storage.integer(forKey: Keys.bestGameCorrect.rawValue)
             let total = storage.integer(forKey: Keys.bestGameTotal.rawValue)
-            let date = storage.object(forKey: Keys.bestGameDate.rawValue) as? Date ?? Date()
+            let date =
+                storage.object(forKey: Keys.bestGameDate.rawValue) as? Date
+                ?? Date()
             return GameResult(correct: correct, total: total, date: date)
         }
         set {
@@ -64,14 +66,14 @@ final class StatisticService: StaticServiceProtocol {
     func store(correct: Int, total amount: Int) {
         gamesCount += 1
         correctAnswers += correct
-        
+
         let newGame = GameResult(correct: correct, total: amount, date: Date())
-        
+
         if newGame.total > 0 {
             totalAccuracy =
                 (Double(correctAnswers) / Double(gamesCount * 10)) * 100
         }
-        
+
         if !bestGame.isBetterThan(newGame) {
             bestGame = newGame
         }
