@@ -33,7 +33,20 @@ struct MoviesLoader: MoviesLoading {
                     let mostPopularMovies = try JSONDecoder().decode(
                         MostPopularMovies.self, from: data
                     )
-                    handler(.success(mostPopularMovies))
+
+                    if !mostPopularMovies.errorMessage.isEmpty {
+                        let apiError = NSError(
+                            domain: "MoviesLoader",
+                            code: -1,
+                            userInfo: [
+                                NSLocalizedDescriptionKey: mostPopularMovies
+                                    .errorMessage
+                            ]
+                        )
+                        handler(.failure(apiError))
+                    } else {
+                        handler(.success(mostPopularMovies))
+                    }
                 } catch {
                     handler(.failure(error))
                 }

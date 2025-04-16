@@ -26,7 +26,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             delegate: self
         )
 
-
         questionFactory?.loadData()
 
         statisticService = StatisticService()
@@ -44,18 +43,20 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
         }
+        hideLoadingIndicator()
     }
-    
+
     func didLoadDataFromServer() {
         hideLoadingIndicator()
         questionFactory?.requestNextQuestion()
     }
-    
+
     func didFailToLoadData(with error: any Error) {
         showNetworkError(message: error.localizedDescription)
     }
 
     @IBAction private func yesButtonClicked(_ sender: Any) {
+        showLoadingIndicator()
         guard let currentQuestion = currentQuestion else {
             return
         }
@@ -167,12 +168,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
 
     private func showLoadingIndicator() {
-        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
 
     private func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
     }
 
@@ -189,7 +188,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
 
-            self.questionFactory?.requestNextQuestion()
+            self.questionFactory?.loadData()
         }
 
         alertPresenter?.showAlert(model: model)

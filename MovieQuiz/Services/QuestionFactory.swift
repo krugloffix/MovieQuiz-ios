@@ -16,7 +16,7 @@ final class QuestionFactory: QuestionFactoryProtocol {
     func loadData() {
         moviesLoader.loadMovies { [weak self] result in
             DispatchQueue.main.async {
-                guard let self = self else { return }
+                guard let self else { return }
                 switch result {
                 case .success(let mostPopularMovies):
                     self.movies = mostPopularMovies.items
@@ -26,7 +26,7 @@ final class QuestionFactory: QuestionFactoryProtocol {
                 }
             }
         }
-    } 
+    }
 
     func setup(delegate: QuestionFactoryDelegate) {
         self.delegate = delegate
@@ -44,19 +44,36 @@ final class QuestionFactory: QuestionFactoryProtocol {
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
-                print("Failed to load image")
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    let error = NSError(
+                        domain: "com.quizapp.image",
+                        code: -1,
+                        userInfo: [
+                            NSLocalizedDescriptionKey:
+                                "Не удалось загрузить постер фильма"
+                        ]
+                    )
+                    self.delegate?.didFailToLoadData(with: error)
+                }
+                return
             }
 
             let rating = Float(movie.rating) ?? 0
 
             let randomNumber = (1...10).randomElement() ?? 1
             let randomComparison = (0...10).randomElement() ?? 0 % 2 == 0
-            let text = "Рейтинг этого фильма " + (randomComparison ? "больше" : "меньше") + " чем \(randomNumber)?"
-        
-            let correctAnswer = randomComparison ? Int(
-                rating
-            ) > randomNumber : Int(rating) < randomNumber
-            
+            let text =
+                "Рейтинг этого фильма "
+                + (randomComparison ? "больше" : "меньше")
+                + " чем \(randomNumber)?"
+
+            let correctAnswer =
+                randomComparison
+                ? Int(
+                    rating
+                ) > randomNumber : Int(rating) < randomNumber
+
             let question = QuizQuestion(
                 image: imageData,
                 text: text,
